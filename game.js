@@ -3,9 +3,9 @@ game = Object.create(Game.prototype);
 window.onresize();
 var a = atom.context;
 var touchX, touchY = 0;
-var isTouching = false;
 
-var hand = [new Card(50), new Card(200), new Card(350)];
+
+var hand = [];
 for (let i = 0; i<7; i++){
 	hand.push(new Card(50+150*i));
 }
@@ -16,6 +16,7 @@ atom.canvas.addEventListener("touchstart", (e)=>{
 	e.preventDefault();
 	for(let i=hand.length-1; i>=0; i-=1){
 		if(hand[i].checkCollision()){
+			this.originDiff = 0;
 			hand[i].xDiff = hand[i].x - touchX;
 			hand[i].yDiff = hand[i].y - touchY;
 			hand[i].isClicked = true;
@@ -29,7 +30,11 @@ atom.canvas.addEventListener("touchend", (e)=>{
 	touchY = e.changedTouches[0].pageY;
 	e.preventDefault();
 	//
-	for(let i = 0; i< hand.length; i++) hand[i].isClicked = false;
+	for(let i = 0; i< hand.length; i++){
+		hand[i].isClicked = false;
+		hand[i].originDiff = hand[i].x;
+		
+	}
 })
 
 

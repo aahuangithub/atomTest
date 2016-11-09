@@ -1,8 +1,10 @@
 var Card = class{
 	constructor(y){
-		this.x = 0;
+		this.x=0;
+		this.originDiff = 0;
+		this.willSlideOff = false;
 		this.y = y;
-		this.xDiff = 0;
+		this.xDiff;
 		this.yDiff = 0;
 		this.boxSize = atom.canvas.width;
 		this.isClicked = false;
@@ -21,6 +23,26 @@ var Card = class{
 		if(this.isClicked){
 			this.x = touchX + this.xDiff;
 			this.y = touchY + this.yDiff;
+		}
+		else{
+			
+			if (this.x>=atom.canvas.width/2){
+				this.willSlideOff = true;
+			}
+			if(this.x-atom.canvas.width*1.> -10){
+				this.willSlideOff = false;
+			}
+			
+			//slides off screen
+			if(this.willSlideOff){
+				this.x = this.originDiff;
+				this.originDiff = this.originDiff*1.1;
+			}
+			//moves to x = 0
+			else{
+				this.x = this.originDiff;
+				this.originDiff = this.originDiff*0.25;
+			}
 		}
 	}
 	checkCollision(){
