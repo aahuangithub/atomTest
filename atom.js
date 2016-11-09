@@ -104,9 +104,7 @@ document.onmouseup = atom.input.onmouseup.bind(atom.input);
 atom.button = {
   LEFT: -1,
   MIDDLE: -2,
-  RIGHT: -3,
-  WHEELDOWN: -4,
-  WHEELUP: -5
+  RIGHT: -3
 };
 
 atom.key = {
@@ -165,6 +163,7 @@ atom.canvas.onmousewheel = atom.input.onmousewheel.bind(atom.input);
 
 atom.canvas.oncontextmenu = atom.input.oncontextmenu.bind(atom.input);
 
+
 window.onresize = function(e) {
   atom.canvas.width = window.innerWidth;
   atom.canvas.height = window.innerHeight;
@@ -218,5 +217,3 @@ Game = (function() {
   return Game;
 
 })();
-
-atom.Game = Game;

@@ -1,43 +1,55 @@
-atom.input.bind(atom.button.LEFT, 'left'); //makes atom.button.LEFT trigger 'left' to become true
-var a = atom.context;
+
 game = Object.create(Game.prototype);
+window.onresize();
+var a = atom.context;
+var touchX, touchY = 0;
+var isTouching = false;
+
+var hand = [new Card(50), new Card(200), new Card(350)];
+for (let i = 0; i<7; i++){
+	hand.push(new Card(50+150*i));
+}
+
+atom.canvas.addEventListener("touchstart", (e)=>{
+	touchX = e.targetTouches[0].pageX; 
+	touchY = e.targetTouches[0].pageY;
+	
+	for(let i=hand.length-1; i>=0; i-=1){
+		if(hand[i].checkCollision()){
+			hand[i].xDiff = hand[i].x - touchX;
+			hand[i].yDiff = hand[i].y - touchY;
+			hand[i].isClicked = true;
+			break;
+		}
+	}
+});
+atom.canvas.addEventListener("touchmove", (e)=>{touchX = e.targetTouches[0].pageX; touchY = e.targetTouches[0].pageY;});
+atom.canvas.addEventListener("touchend", (e)=>{
+	touchX = e.changedTouches[0].pageX; 
+	touchY = e.changedTouches[0].pageY;
+	//
+	for(let i = 0; i< hand.length; i++) hand[i].isClicked = false;
+})
+
 
 game.update = function(dt){
-	if (atom.input.pressed('left')){
-		this.drawTestRect(0, 0, 22, 22);
-	}
-	else if (atom.input.down('left')){
-		this.drawTestRect(0, 0, 22, 22);
-	}
+	for(let i = 0; i< hand.length; i++) hand[i].update();
 }
 
 game.draw = function(){
-	atom.context.fillStyle = 'black';
-	atom.context.fillRect(0, 0, atom.width, atom.height);
 	this.drawBackground();
-	this.drawTestRect(atom.input.mouse.x, atom.input.mouse.y);
-		if (atom.input.pressed('left')){
-		this.drawTestRect(0, 0, 22, 22);
-	}
-	else if (atom.input.down('left')){
-		this.drawTestRect(0, 0, 22, 22);
-	}
+	
+	for(let i = 0; i< hand.length; i++) hand[i].show();
 }
 
 game.drawBackground = function(){
 	a.beginPath();
-	a.fillStyle = '#FAFAFA';
-	a.fillRect(0, 0, atom.width, atom.height/2);
+	a.fillStyle = '#37474F';
+	a.fillRect(0, 0, atom.width, atom.height);
 }
 
-game.drawTestRect = function(x, y){
-	a.beginPath();
-	a.fillStyle = '#FF0000';
-	a.fillRect(x, y, 20, 20);
-}
 //
 window.onfocus = function(){
 	game.run();
 }
-
 game.run();
