@@ -10,22 +10,10 @@ for (let i = 0; i<7; i++){
 	hand.push(new Card(50+150*i));
 }
 
-    function makeFullscreen(element) {
-        if (element.requestFullscreen) {
-            element.requestFullscreen();
-        } else if (element.msRequestFullscreen) {
-            element.msRequestFullscreen();
-        }else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-        }else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen();
-        }
-    }
 atom.canvas.addEventListener("touchstart", (e)=>{
 	touchX = e.targetTouches[0].pageX; 
 	touchY = e.targetTouches[0].pageY;
 	e.preventDefault();
-	makeFullScreen(atom.canvas);
 	for(let i=hand.length-1; i>=0; i-=1){
 		if(hand[i].checkCollision()){
 			hand[i].xDiff = hand[i].x - touchX;
