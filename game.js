@@ -7,7 +7,7 @@ var touchX, touchY = 0;
 
 var hand = [];
 for (let i = 0; i<7; i++){
-	hand.push(new Card(50+50*i));
+	hand.push(new Card(50+15*i));
 }
 
 atom.canvas.addEventListener("touchstart", (e)=>{
@@ -45,13 +45,15 @@ atom.canvas.addEventListener("touchend", (e)=>{
 		}
 		if(hand[i].y<atom.canvas.height*0.02){hand[i].makeTweenY(atom.canvas.height*0.03);}
 		else if (hand[i].y>atom.canvas.height*0.75){hand[i].makeTweenY(atom.canvas.height*0.74);}
-		else{hand[i].yTarget=hand[i].y;}
+		else{
+			hand[i].yTarget=hand[i].y;//}
 	}
 })
 
 
 game.update = function(dt){
-	for(let i = 0; i< hand.length; i++) {
+	
+	for(let i = 0; i<hand.length; i++) {
 		hand[i].update(); 
 	}
 }
