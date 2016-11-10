@@ -46,9 +46,9 @@ atom.canvas.addEventListener("touchend", (e)=>{
 		if(hand[i].y<atom.canvas.height*0.02){hand[i].makeTweenY(atom.canvas.height*0.03);}
 		else if (hand[i].y>atom.canvas.height*0.75){hand[i].makeTweenY(atom.canvas.height*0.74);}
 		else{
-			hand[i].yTarget=hand[i].y;//}
+			hand[i].yTarget=hand[i].y;}
 	}
-})
+}
 
 
 game.update = function(dt){
