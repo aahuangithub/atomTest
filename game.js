@@ -7,7 +7,7 @@ var touchX, touchY = 0;
 
 var hand = [];
 for (let i = 0; i<7; i++){
-	hand.push(new Card(50+15*i));
+	hand.push(new Card(50+20*i));
 }
 
 atom.canvas.addEventListener("touchstart", (e)=>{
@@ -30,31 +30,45 @@ atom.canvas.addEventListener("touchmove", (e)=>{
 	e.preventDefault();
 });
 atom.canvas.addEventListener("touchend", (e)=>{
-	touchX = e.changedTouches[0].pageX; 
-	touchY = e.changedTouches[0].pageY;
-	e.preventDefault();
-	//
-	
-	for(let i = 0; i< hand.length; i++){
-		hand[i].isClicked = false;
-		if(hand[i].x>atom.canvas.width/2){
-			hand[i].makeTweenX(atom.canvas.width*1.1);
+		touchX = e.changedTouches[0].pageX; 
+		touchY = e.changedTouches[0].pageY;
+		e.preventDefault();
+		//
+				
+		for(let i = 0; i< hand.length; i++){
+			hand[i].isClicked = false;
+			if(hand[i].x>atom.canvas.width/2){
+				hand[i].makeTweenX(atom.canvas.width*1.1);
+			}
+			else{
+				hand[i].makeTweenX(0);
+			}
+			hand[i].yTarget=hand[i].y;
 		}
-		else{
-			hand[i].makeTweenX(0);
+		if(hand[0].y<atom.canvas.height*0.02){
+			hand[0].makeTweenY(atom.canvas.height*0.03);
+		}/*
+		if(hand[hand.length-1].y>atom.canvas.height*0.75){
+			hand[hand.length-1].makeTweenY(atom.canvas.height*0.74);
 		}
-		if(hand[i].y<atom.canvas.height*0.02){hand[i].makeTweenY(atom.canvas.height*0.03);}
-		else if (hand[i].y>atom.canvas.height*0.75){hand[i].makeTweenY(atom.canvas.height*0.74);}
-		else{
-			hand[i].yTarget=hand[i].y;}
-	}
-}
-
+	*/}
+);
 
 game.update = function(dt){
 	
+
 	for(let i = 0; i<hand.length; i++) {
 		hand[i].update(); 
+	}
+	for(let i = 1; i<hand.length; i++) {
+		while(hand[i].y-hand[i-1].y<50 && !hand[i].isClicked){
+			hand[i].y+=10;
+		} 
+	}
+	for(let i = hand.length-2; i>=0; i--) {
+		while(hand[i+1].y-hand[i].y<50 && !hand[i].isClicked){
+			hand[i].y-=10;
+		} 
 	}
 }
 
