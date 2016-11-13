@@ -2,7 +2,7 @@
 game = Object.create(Game.prototype);
 window.onresize();
 var a = atom.context;
-var touchX, touchY = 0;
+var touchX, touchY, sendTransparency = 0;
 
 
 var hand = [];
@@ -43,20 +43,20 @@ atom.canvas.addEventListener("touchend", (e)=>{
 			else{
 				hand[i].makeTweenX(0);
 			}
-			hand[i].yTarget=hand[i].y;
+			if((hand[i].y>atom.canvas.height*0.66)){
+				hand[i].yTarget = atom.canvas.height*0.66-i*10;
+			}
+			else{
+				hand[i].yTarget=hand[i].y;
+			}
 		}
 		if(hand[0].y<atom.canvas.height*0.02){
 			hand[0].makeTweenY(atom.canvas.height*0.03);
-		}/*
-		if(hand[hand.length-1].y>atom.canvas.height*0.75){
-			hand[hand.length-1].makeTweenY(atom.canvas.height*0.74);
 		}
-	*/}
+	}
 );
 
 game.update = function(dt){
-	
-
 	for(let i = 0; i<hand.length; i++) {
 		hand[i].update(); 
 	}
@@ -65,16 +65,20 @@ game.update = function(dt){
 			hand[i].y+=10;
 		} 
 	}
+
 	for(let i = hand.length-2; i>=0; i--) {
 		while(hand[i+1].y-hand[i].y<50 && !hand[i].isClicked){
 			hand[i].y-=10;
 		} 
 	}
+
 }
 
 game.draw = function(){
 	this.drawBackground();
+	//a.globalAlpha = sendTransparency;
 	
+	a.globalAlpha = 1;	
 	for(let i = 0; i< hand.length; i++){
 		hand[i].show();
 	}

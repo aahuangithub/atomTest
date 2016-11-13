@@ -38,9 +38,6 @@ var Card = class{
 	//draws the Card
 	show(){
 		a.beginPath();
-		/*
-		creates a transparent send message that becomes opaque as the this.x approaches the side
-		*/
 		a.rect(this.x, this.y, this.boxSize, atom.canvas.height);
 		a.shadowColor = '#000';
 		a.shadowBlur = 90;
