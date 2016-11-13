@@ -39,6 +39,8 @@ atom.canvas.addEventListener("touchend", (e)=>{
 			hand[i].isClicked = false;
 			if(hand[i].x>atom.canvas.width/2){
 				hand[i].makeTweenX(atom.canvas.width*1.1);
+				hand.splice(i, 1);
+				i--;
 			}
 			else{
 				hand[i].makeTweenX(0);
