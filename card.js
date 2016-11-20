@@ -12,6 +12,7 @@ var Card = class{
 
 		this.boxSize = atom.canvas.width;
 		this.isClicked = false;
+		this.text = "";
 	}
 
 

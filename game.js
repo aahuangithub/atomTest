@@ -3,7 +3,7 @@ game = Object.create(Game.prototype);
 window.onresize();
 var a = atom.context;
 var touchX, touchY, sendTransparency = 0;
-
+a.textAlign = "center";
 
 var hand = [];
 for (let i = 0; i<7; i++){
@@ -41,6 +41,7 @@ atom.canvas.addEventListener("touchend", (e)=>{
 				hand[i].makeTweenX(atom.canvas.width*1.1);
 				hand.splice(i, 1);
 				i--;
+				sendTransparency = 0;
 			}
 			else{
 				hand[i].makeTweenX(0);
@@ -78,12 +79,36 @@ game.update = function(dt){
 
 game.draw = function(){
 	this.drawBackground();
-	//a.globalAlpha = sendTransparency;
 	
-	a.globalAlpha = 1;	
 	for(let i = 0; i< hand.length; i++){
 		hand[i].show();
+		if (hand[i].isClicked){
+			sendTransparency = hand[i].x/(atom.canvas.width/2)-0.1;
+		}
 	}
+
+	if(sendTransparency<0.9) sendTransparency = 0;
+
+	a.save();
+		a.globalAlpha = sendTransparency;
+		this.showSend();
+	a.restore();
+	}
+
+game.showSend = function(){
+	a.beginPath();
+	a.font = "bold 175px Calibri, sans-serif";
+	a.shadowColor = "transparent";
+	a.fillStyle = "#AADADA"
+
+	a.ellipse(atom.canvas.width-125, atom.canvas.height/2+80, 120, 120, 0, 0, 2*Math.PI);
+	a.fill();
+	a.closePath();
+	
+	a.fillStyle = "#37474F";
+	a.fillText("➵", atom.canvas.width-125, atom.canvas.height/2+100);
+	a.font = "bold 75px Calibri, sans-serif";
+	a.fillText("SEND", atom.canvas.width-125, atom.canvas.height/2+150);
 }
 
 game.drawBackground = function(){
